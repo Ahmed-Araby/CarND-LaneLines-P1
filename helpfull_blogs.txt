@@ -1,0 +1,13 @@
+# lane line detection 
+https://towardsdatascience.com/carnd-project-1-lane-lines-detection-a-complete-pipeline-6b815037d02c
+https://jeffwen.com/2017/02/23/lane_finding
+https://github.com/nachiket273/Self_Driving_Car/tree/master/CarND-LaneLines-P1
+https://towardsdatascience.com/finding-lane-lines-simple-pipeline-for-lane-detection-d02b62e7572b
+
+
+
+
+# math 
+https://math.stackexchange.com/questions/149333/calculate-third-point-with-two-given-point
+https://gis.stackexchange.com/questions/33055/extrapolating-a-line-in-postgis
+https://stackoverflow.com/questions/27658220/extrapolate-a-line-beyond-two-known-points
