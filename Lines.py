@@ -127,13 +127,65 @@ def average_lines(lines , Avg_ux , Avg_uy , Avg_lx , Avg_ly):
     return [avg_lx //l , avg_ly //l , avg_ux //l , avg_uy //l]
 
 
-def exterpolate_lines(line):
+# critical part need to be tested
+def get_slope_intercept(point1 , point2):
     """
 
-    :param line: is the two end points of left or right alane line
-    :return: exterpolated line
+    :param point1: lower point of the line
+    :param point2:  higher point of the line
+    :return: slope and intercept of this line
     """
-    pass
+    slope = (point1[1] - point2[1]) / (point1[0] - point2[0])  # slope = ( y2-y1 ) / ( x2-x1 ) .
+    intercept = point1[1] - slope * point1[0]  # y = m*x + b
+    return slope , intercept
+
+def get_line(maxy , miny , slope , intercept):
+    """
+    :param maxy: is down the image
+    :param miny: up in the image
+    :param slope:
+    :param intercept:
+    :return: line [ , , , ]   (col , row )    , lower point will be first.
+    """
+
+    # get columns.
+    lx = int(( maxy-intercept ) / slope)
+    ux = int(( miny - intercept ) / slope)
+
+    line = [lx , maxy , ux , miny]
+    return line
+
+def exterpolate_line(line , original_image):
+    """
+    - ******************* we can exterpolate the line to different extents *********************
+    :param line: is list of the two end points of left or right alane line
+    :original_image: original, we will take dimensions from it
+    :return: exterpolated line list of 4 numbers (col , row) of 2 end points
+    """
+
+    # (col , row)
+    fx , fy , sx , sy = line
+    if fy > sy:
+        point1 = (fx, fy)
+        point2 = (sx , sy)
+    else:
+        point2 = (fx , fy)
+        point1 = (sx , sy)
+
+    # get the slope and intercept of this line
+    slope  , intercept = get_slope_intercept(point1 , point2)
+
+    # exterpolate the line throw the whole height line of the image
+    miny = int(original_image.shape[0] * 0.3)
+    maxy = int(original_image.shape[0]-1)
+
+    # get the line
+    line = get_line(maxy , miny , slope , intercept)
+
+    return line
+
+# end of critical part
+
 def draw_lines(lines , original_image):
     """
     - we get points in lines as ( col , row ).
@@ -147,5 +199,5 @@ def draw_lines(lines , original_image):
     for i in range(0 , len(lines), 1):
         start_x , start_y  , end_x , end_y = lines[i]
         lines_image = cv2.line(lines_image , (start_x , start_y) , (end_x , end_y) , RED , line_thickness)
-    display(lines_image)
+    #display(lines_image)
     return lines_image
