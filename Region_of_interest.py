@@ -74,5 +74,5 @@ def extract_ROI(polygon , image):
     print(polygon)
     cv2.fillPoly(mask, np.array([polygon], dtype=np.int32), color)
     cv2.bitwise_and(image , mask , dst=mask)
-    display(mask)
+    #display(mask)
     return mask  # has the ROI
